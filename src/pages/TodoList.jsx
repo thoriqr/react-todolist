@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 
-import Paper from "../components/Paper";
-import Header from "../components/Header";
-import TodoForm from "../components/TodoForm";
-import Todos from "../components/Todos";
+import useStateWithLocalStorage from "../hooks/useStateWithLocalStorage";
+import Paper from "../components/paper/PaperClass";
+import Header from "../components/header/HeaderClass";
+import TodoForm from "../components/todoform/TodoFormClass";
+import Todos from "../components/todos/TodosClass";
+
+import Container from "../layout/Container";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([
-    { text: "Learning React!", isCompleted: false },
-    { text: "Learning React Hooks!", isCompleted: false },
-    { text: "Learning styling in React!", isCompleted: false }
-  ]);
-
+  const [todos, setTodos] = useStateWithLocalStorage("todos");
   const [showAdd, setShowAdd] = useState(false);
 
   const addTodo = (value) => {
@@ -35,17 +33,21 @@ const TodoList = () => {
 
   const showAddToggle = () => setShowAdd(!showAdd);
 
-  console.log("todos", todos);
-
   return (
     <Paper>
-      <Header
-        showAddToggle={showAddToggle}
-        showAdd={showAdd}
-        clearTodos={clearTodos}
-      />
-      <TodoForm addTodo={addTodo} showAdd={showAdd} />
-      <Todos todos={todos} completeTodo={completeTodo} />
+      <Container
+        flexDirection="column"
+        justifyContent="space-between"
+        height="100%"
+      >
+        <Header
+          showAddToggle={showAddToggle}
+          showAdd={showAdd}
+          clearTodos={clearTodos}
+        />
+        <TodoForm addTodo={addTodo} showAdd={showAdd} />
+        <Todos todos={todos} completeTodo={completeTodo} />
+      </Container>
     </Paper>
   );
 };
